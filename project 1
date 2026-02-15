@@ -1,0 +1,27 @@
+import pandas as pd
+
+df = pd.read_csv("data/day15_real_dataset.csv")
+
+def clean_data_project(df):
+    df = df.copy()
+    
+    df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
+    
+    numeric_cols = df.select_dtypes(include="number").columns
+    for col in numeric_cols:
+        df[col] = df[col].fillna(df[col].mean())
+    
+    object_cols = df.select_dtypes(include="object").columns
+    for col in object_cols:
+        df[col] = df[col].fillna(df[col].mode()[0])
+        df[col] = df[col].str.strip().str.lower()
+    
+    for col in df.columns:
+        if "date" in col:
+            df[col] = pd.to_datetime(df[col], errors="coerce")
+    
+    return df
+
+cleaned_df = clean_data_project(df)
+
+cleaned_df.to_csv("data/day15_cleaned.csv", index=False)
