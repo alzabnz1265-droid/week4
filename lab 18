@@ -1,0 +1,15 @@
+import pandas as pd
+
+df = pd.read_csv("data/day18_binning.csv")
+
+df["width"] = pd.cut(df["age"], 4)
+df["freq"] = pd.qcut(df["age"], 4)
+df["domain"] = pd.cut(df["age"], [0,18,35,60,100])
+
+df_width = pd.get_dummies(df["width"])
+df_freq = pd.get_dummies(df["freq"])
+df_domain = pd.get_dummies(df["domain"])
+
+df_width.to_csv("data/day18_width.csv", index=False)
+df_freq.to_csv("data/day18_freq.csv", index=False)
+df_domain.to_csv("data/day18_domain.csv", index=False)
