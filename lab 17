@@ -1,0 +1,17 @@
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+
+df = pd.read_csv("data/day17_scaling.csv")
+
+minmax = MinMaxScaler()
+standard = StandardScaler()
+robust = RobustScaler()
+
+minmax_data = minmax.fit_transform(df)
+standard_data = standard.fit_transform(df)
+robust_data = robust.fit_transform(df)
+
+print(df.describe())
+print(pd.DataFrame(minmax_data).describe())
+print(pd.DataFrame(standard_data).describe())
+print(pd.DataFrame(robust_data).describe())
